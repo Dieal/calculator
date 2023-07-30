@@ -1,5 +1,18 @@
 let num1, num2;
 let operator;
+let displayNumber = "";
+
+const digits = document.querySelectorAll(".digit");
+digits.forEach((button) => button.addEventListener("click", e => {
+    let value = e.target.textContent;
+    updateDisplayNumber(value);
+}));
+
+function updateDisplayNumber(num) {
+    const display = document.querySelector("div.display");
+    displayNumber += "" + num;
+    display.textContent = displayNumber;
+}
 
 function operate (operator, num1, num2) {
 
