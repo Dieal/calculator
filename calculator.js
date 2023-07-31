@@ -5,7 +5,7 @@ let displayNumber = 0;
 let calculation = false;
 let isNumberDisplayed = false;
 
-console.log(operate("+", 10, 20));
+const operationDisplay = document.querySelector(".display-operation");
 
 const digits = document.querySelectorAll(".digit");
 digits.forEach((button) => button.addEventListener("click", e => {
@@ -63,25 +63,25 @@ function clearData() {
 }
 
 function clearDisplay() {
-    const display = document.querySelector("div.display");
+    const display = document.querySelector(".display-number");
     display.textContent = "";
     displayNumber = 0;
 }
 
 function resetDisplay() {
-    const display = document.querySelector("div.display");
+    const display = document.querySelector(".display-number");
     displayNumber = "0";
     display.textContent = displayNumber
 }
 
 function changeDisplayNumber (num) {
-    const display = document.querySelector("div.display");
+    const display = document.querySelector(".display-number");
     display.textContent = num;
     displayNumber = num;
 }
 
 function addDisplayNumber(num) {
-    const display = document.querySelector("div.display");
+    const display = document.querySelector(".display-number");
     if (+displayNumber === 0) {
         displayNumber = num; 
     } else {
