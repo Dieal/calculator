@@ -6,6 +6,7 @@ let calculation = false;
 let isNumberDisplayed = false;
 
 const operationDisplay = document.querySelector(".display-operation");
+const display = document.querySelector(".display-number");
 
 const digits = document.querySelectorAll(".digit");
 digits.forEach((button) => button.addEventListener("click", e => {
@@ -24,6 +25,11 @@ clearButton.addEventListener("click", (e) => {
     resetDisplay();
 });
 
+const deleteButton = document.querySelector("#backspace");
+deleteButton.addEventListener("click", (e) => {
+    deleteLastDigit();
+});
+  
 const operators = document.querySelectorAll(".operator");
 operators.forEach((obj) => obj.addEventListener("click", (e) => {
     
@@ -58,35 +64,45 @@ function clearData() {
     num1 = 0;
     num2 = 0;
     operator = "";
-    displayNumber = "";
+    displayNumber = 0;
     calculation = false;
 }
 
 function clearDisplay() {
-    const display = document.querySelector(".display-number");
     display.textContent = "";
     displayNumber = 0;
 }
 
 function resetDisplay() {
-    const display = document.querySelector(".display-number");
-    displayNumber = "0";
+    displayNumber = 0;
     display.textContent = displayNumber
 }
 
 function changeDisplayNumber (num) {
-    const display = document.querySelector(".display-number");
     display.textContent = num;
     displayNumber = num;
 }
 
 function addDisplayNumber(num) {
-    const display = document.querySelector(".display-number");
     if (+displayNumber === 0) {
         displayNumber = num; 
     } else {
         displayNumber += "" + num;
     }
+    display.textContent = displayNumber;
+}
+
+function deleteLastDigit() {
+    if (+displayNumber === 0 || displayNumber === "") {
+        return;
+    }
+
+    if (displayNumber.length === 1) {
+        resetDisplay();
+        return;
+    }
+
+    displayNumber = displayNumber.slice(0, displayNumber.length - 1);
     display.textContent = displayNumber;
 }
 
