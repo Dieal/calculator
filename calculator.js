@@ -1,45 +1,58 @@
 let num1 = 0;
 let num2 = 0;
 let operator;
-let displayNumber = "";
+let displayNumber = 0;
 let calculation = false;
+let isNumberDisplayed = false;
 
 console.log(operate("+", 10, 20));
 
 const digits = document.querySelectorAll(".digit");
 digits.forEach((button) => button.addEventListener("click", e => {
     let value = e.target.textContent;
-    updateDisplayNumber(value);
+    if (isNumberDisplayed) {
+        isNumberDisplayed = false;
+        changeDisplayNumber(value);
+        return;
+    }
+    addDisplayNumber(value);
 }));
 
 const clearButton = document.querySelector("#clear");
-clearButton.addEventListener("click", (e) => clearData());
+clearButton.addEventListener("click", (e) => {
+    clearData();
+    resetDisplay();
+});
 
 const operators = document.querySelectorAll(".operator");
 operators.forEach((obj) => obj.addEventListener("click", (e) => {
     
     let op = e.target.textContent;
     if (displayNumber === "") return;
-    
+
     if (!calculation) {
         num1 = +displayNumber;
-        resetDisplay();
+        clearDisplay();
         operator = op;
         calculation = true;
-        return;
     } else {
-
+        num2 = +displayNumber;
+        if (num2 === 0 && operator === "/") {
+            changeDisplayNumber("don't even try");
+            clearData();
+            return;
+        };
+        num1 = operate(operator, num1, num2);
+        operator = op;
+        changeDisplayNumber(num1);
+        isNumberDisplayed = true;
+        if (op === '=' && (displayNumber !== 0 && displayNumber !== "")) {
+            calculation = false;
+            return;
+        }
     }
 
-    console.log("test");
-
-
-
 }));
-
-function equalsOperation() {
-
-}
 
 function clearData() {
     num1 = 0;
@@ -47,7 +60,6 @@ function clearData() {
     operator = "";
     displayNumber = "";
     calculation = false;
-    resetDisplay();
 }
 
 function clearDisplay() {
@@ -62,7 +74,13 @@ function resetDisplay() {
     display.textContent = displayNumber
 }
 
-function updateDisplayNumber(num) {
+function changeDisplayNumber (num) {
+    const display = document.querySelector("div.display");
+    display.textContent = num;
+    displayNumber = num;
+}
+
+function addDisplayNumber(num) {
     const display = document.querySelector("div.display");
     if (+displayNumber === 0) {
         displayNumber = num; 
