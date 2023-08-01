@@ -128,6 +128,8 @@ function deleteLastDigit() {
         return;
     }
 
+    if (isNumberDisplayed) return;
+
     if (displayNumber.length === 1) {
         resetDisplay();
         return;
