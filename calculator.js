@@ -14,6 +14,7 @@ const digits = document.querySelectorAll(".digit");
 digits.forEach((button) => button.addEventListener("click", e => {
     let digit = e.target.textContent;
     if (digit === '.' && !dotValid()) return;
+    if (digit === "00" && (displayNumber === 0 || displayNumber === "" || isNumberDisplayed)) return;
     if (isNumberDisplayed) {
         isNumberDisplayed = false;
         changeDisplayNumber(digit);
