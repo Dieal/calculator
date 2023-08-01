@@ -38,26 +38,32 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
     
     let op = e.target.textContent;
     if (displayNumber === "") return;
+    if (op === "=" && !calculation) return;
 
     // Doesn't do anything if the last digit of the displayed number is a dot
     if (displayNumber[displayNumber.length - 1] === ".") return;
 
     if (!calculation) {
         num1 = +displayNumber;
-        clearDisplay();
         operator = op;
         calculation = true;
         verboseOperation = "" + num1 + " " + operator;
+        clearDisplay();
     } else {
+
+        if (displayNumber === "" || displayNumber === 0) return;
+
         num2 = +displayNumber;
+        
+        // Division by 0
         if (num2 === 0 && operator === "/") {
             changeDisplayNumber("don't even try");
             clearData();
             return;
         };
+
         num1 = operate(operator, num1, num2);
         operator = op
-        changeDisplayNumber(num1);
         isNumberDisplayed = true;
         if (op === '=' && (displayNumber !== 0 && displayNumber !== "")) {
             calculation = false;
@@ -65,6 +71,8 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
         } else {
             verboseOperation = "" + num1 + " " + operator;
         }
+
+        changeDisplayNumber(num1);
     }
 
     updateVerboseDisplay();
