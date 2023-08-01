@@ -63,7 +63,7 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
             return;
         };
 
-        num1 = operate(operator, num1, num2);
+        num1 = roundDecimal(operate(operator, num1, num2));
         operator = op
         isNumberDisplayed = true;
         if (op === '=' && (displayNumber !== 0 && displayNumber !== "")) {
@@ -92,6 +92,12 @@ function clearData() {
 }
 
 // Shows an empty display
+function roundDecimal(num) {
+    if (num % 1 === 0) return num; // Checks if it an integer
+    const decimalPositions = 13;
+    return Math.round(num * (10**decimalPositions))  / (10**decimalPositions);
+}
+
 function clearDisplay() {
     display.textContent = "";
     displayNumber = 0;
