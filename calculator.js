@@ -1,7 +1,7 @@
 let num1 = 0;
 let num2 = 0;
 let operator;
-let displayNumber = 0;
+let displayNumber = "";
 let calculation = false;
 let isNumberDisplayed = false;
 let verboseOperation = "";
@@ -14,7 +14,7 @@ const digits = document.querySelectorAll(".digit");
 digits.forEach((button) => button.addEventListener("click", e => {
     let digit = e.target.textContent;
     if (digit === '.' && !dotValid()) return;
-    if (digit === "00" && (displayNumber === 0 || displayNumber === "" || isNumberDisplayed)) return;
+    if (digit === "00" && (displayNumber == 0 || displayNumber === "" || isNumberDisplayed)) return;
     if (isNumberDisplayed) {
         isNumberDisplayed = false;
         changeDisplayNumber(digit);
@@ -52,12 +52,12 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
         clearDisplay();
     } else {
 
-        if (displayNumber === "" || displayNumber === 0) return;
+        if (displayNumber === "" || displayNumber == 0) return;
 
         num2 = +displayNumber;
         
         // Division by 0
-        if (num2 === 0 && operator === "/") {
+        if (num2 == 0 && operator === "/") {
             changeDisplayNumber("don't even try");
             clearData();
             return;
@@ -66,7 +66,7 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
         num1 = roundDecimal(operate(operator, num1, num2));
         operator = op
         isNumberDisplayed = true;
-        if (op === '=' && (displayNumber !== 0 && displayNumber !== "")) {
+        if (op === '=' && (displayNumber != 0 && displayNumber !== "")) {
             calculation = false;
             verboseOperation += " " + num2;
         } else {
@@ -85,7 +85,7 @@ function clearData() {
     num1 = 0;
     num2 = 0;
     operator = "";
-    displayNumber = 0;
+    displayNumber = "";
     calculation = false;
     verboseOperation = "";
     updateVerboseDisplay();
@@ -100,23 +100,23 @@ function roundDecimal(num) {
 
 function clearDisplay() {
     display.textContent = "";
-    displayNumber = 0;
+    displayNumber = "";
 }
 
 // Shows a 0 on the display
 function resetDisplay() {
-    displayNumber = 0;
-    display.textContent = displayNumber
+    displayNumber = "";
+    display.textContent = displayNumber;
 }
 
 function changeDisplayNumber (num) {
     display.textContent = num;
-    displayNumber = num;
+    displayNumber = "" + num;
 }
 
 function addDisplayNumber(num) {
-    if (+displayNumber === 0) {
-        displayNumber = num; 
+    if (displayNumber == 0) {
+        displayNumber = "" + num; 
     } else {
         displayNumber += "" + num;
     }
@@ -124,7 +124,7 @@ function addDisplayNumber(num) {
 }
 
 function deleteLastDigit() {
-    if (+displayNumber === 0 || displayNumber === "") {
+    if (displayNumber == 0 || displayNumber === "") {
         return;
     }
 
@@ -138,7 +138,7 @@ function deleteLastDigit() {
 }
 
 function dotValid() {
-    if (displayNumber === 0 || displayNumber === "") return false;
+    if (displayNumber == 0 || displayNumber === "") return false;
     if (countDigit(displayNumber, '.') >= 1) return false;
     if (isNumberDisplayed) return false;
     return true;
