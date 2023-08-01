@@ -18,6 +18,7 @@ digits.forEach((button) => button.addEventListener("click", e => {
 
 document.addEventListener("keydown", e => {
     let digit = e.key;
+    e.preventDefault();
     
     if (digit === "Backspace") {
         deleteLastDigit();
