@@ -13,15 +13,35 @@ const display = document.querySelector(".display-number");
 const digits = document.querySelectorAll(".digit");
 digits.forEach((button) => button.addEventListener("click", e => {
     let digit = e.target.textContent;
-    if (digit === '.' && !dotValid()) return;
-    if (digit === "00" && (displayNumber == 0 || displayNumber === "" || isNumberDisplayed)) return;
-    if (isNumberDisplayed) {
-        isNumberDisplayed = false;
-        changeDisplayNumber(digit);
+    pressDigit(digit);
+}));
+
+document.addEventListener("keydown", e => {
+    let digit = e.key;
+    
+    if (digit === "Backspace") {
+        deleteLastDigit();
         return;
     }
-    addDisplayNumber(digit);
-}));
+
+    if (digit.toLocaleLowerCase() === "c") {
+        clearData();
+        resetDisplay();
+        return;
+    }
+
+    // Regex that checks if the digit is a number or a decimal point
+    if (isNumerical(digit) || digit === ".") {
+        pressDigit(digit);
+        return;
+    }
+
+    if (/[+\-*\/=]/.test(digit)) {
+        pressOperator(digit);
+        return;
+    }
+
+});
 
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", (e) => {
@@ -36,8 +56,23 @@ deleteButton.addEventListener("click", (e) => {
   
 const operators = document.querySelectorAll(".operator");
 operators.forEach((obj) => obj.addEventListener("click", (e) => {
-    
     let op = e.target.textContent;
+    pressOperator(op);
+}));
+
+// Utilities methods
+function pressDigit (digit) {
+    if (digit === '.' && !dotValid()) return;
+    if (digit === "00" && (displayNumber == 0 || displayNumber === "" || isNumberDisplayed)) return;
+    if (isNumberDisplayed) {
+        isNumberDisplayed = false;
+        changeDisplayNumber(digit);
+        return;
+    }
+    addDisplayNumber(digit);
+}
+
+function pressOperator(op) {
     if (displayNumber === "") return;
     if (op === "=" && !calculation) return;
 
@@ -77,10 +112,11 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
     }
 
     updateVerboseDisplay();
+}
 
-}));
-
-// Utilities methods
+function isNumerical(digit) {
+    return /^\d+$/.test(digit);
+}
 function clearData() {
     num1 = 0;
     num2 = 0;
