@@ -4,6 +4,7 @@ let operator;
 let displayNumber = 0;
 let calculation = false;
 let isNumberDisplayed = false;
+let verboseOperation = "";
 
 // Elements queries and Listeners
 const operationDisplay = document.querySelector(".display-operation");
@@ -46,6 +47,7 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
         clearDisplay();
         operator = op;
         calculation = true;
+        verboseOperation = "" + num1 + " " + operator;
     } else {
         num2 = +displayNumber;
         if (num2 === 0 && operator === "/") {
@@ -54,14 +56,18 @@ operators.forEach((obj) => obj.addEventListener("click", (e) => {
             return;
         };
         num1 = operate(operator, num1, num2);
-        operator = op;
+        operator = op
         changeDisplayNumber(num1);
         isNumberDisplayed = true;
         if (op === '=' && (displayNumber !== 0 && displayNumber !== "")) {
             calculation = false;
-            return;
+            verboseOperation += " " + num2;
+        } else {
+            verboseOperation = "" + num1 + " " + operator;
         }
     }
+
+    updateVerboseDisplay();
 
 }));
 
@@ -72,6 +78,8 @@ function clearData() {
     operator = "";
     displayNumber = 0;
     calculation = false;
+    verboseOperation = "";
+    updateVerboseDisplay();
 }
 
 // Shows an empty display
@@ -127,6 +135,10 @@ function countDigit(string, digit) {
         if (string[i] === digit) result++;
     }
     return result;
+}
+
+function updateVerboseDisplay() {
+    operationDisplay.textContent = verboseOperation;
 }
 
 // Operations
